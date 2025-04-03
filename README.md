@@ -1,7 +1,3 @@
-Certainly! Here's an updated version of your **README.md** with the **used commands** section included. I've formatted the commands in terminal-style blocks to make them clear and professional. This will help you showcase the specific configurations used on routers and switches for your enterprise network project.
-
----
-
 # **Enterprise Network Design**
 
 This document outlines the architecture and configuration details for a highly available, secure, and scalable **Enterprise Network**. The design includes multiple network zones, key components, services, and best practices to ensure optimal network performance, security, and redundancy.
@@ -200,14 +196,3 @@ interface GigabitEthernet0/0
  exit
 ```
 
----
-
-## **📌 Conclusion**
-
-This enterprise network design ensures high availability, redundancy, and security across the infrastructure. By leveraging key technologies such as **HSRP**, **LACP**, **OSPF**, and **secure access controls**, the network is designed to support future scalability and provide reliable service delivery to internal and external users.
-
-If you have any questions or would like to contribute to this project, feel free to open an issue or pull request.
-
----
-
-This README is now ready for your GitHub repository, with clear and precise configuration commands displayed for routers and switches. Let me know if you'd like to add further details!
