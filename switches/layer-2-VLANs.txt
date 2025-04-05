@@ -1,0 +1,22 @@
+123ex
+enable 
+man 
+configure terminal 
+
+interface range gig1/0/1-8
+switchport mode trunk 
+exit
+
+vlan 10
+name management 
+vlan 20 
+name LAN 
+vlan 50 
+name WLAN 
+vlan 70 
+name VoIP
+vlan 90 
+name servers
+exit 
+
+

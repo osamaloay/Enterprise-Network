@@ -1,0 +1,14 @@
+Between Cloud , ISP , Firewall , Routers and Layer-3 Switches 
+
+cloud area : 8.0.0.0/24
+ISP-1 internet : 20.20.20.0/30
+ISP-2 internet : 30.30.30.0/30 
+ISP-1-FW1 : 105.100.50.0/30 
+ISP-1-FW2 : 105.100.50.4/30 
+ISP-2-FW1 : 205.200.100.0/30 
+ISP-2-FW2 : 205.200.100.4/30 
+FW-1-MLSW1 : 10.2.2.0/30 
+FW-1-MLSW2 : 10.2.2.4/30 
+FW-2-MLSW1 : 10.2.2.8/30 
+FW-2-MLSW1 : 10.2.2.12/30 
+

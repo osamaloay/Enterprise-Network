@@ -1,0 +1,11 @@
+##!! server-farm switch configuration
+##!! the DMZ zone all ports should have portfast as they are all access ports 
+
+123ex
+enable 
+man
+configure terminal 
+
+intrface range fa0/3-7 
+spanning-tree portfast
+spanning-tree bpdugaurd enable

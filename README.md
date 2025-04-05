@@ -17,6 +17,11 @@ This document outlines the architecture and configuration details for a highly a
    - The **External Zone** will facilitate redundant ISP connections through routers.
 
 ---
+### Preview 
+<p align="center">
+  <img src="media/Screenshot%20From%202025-04-05%2006-25-51.png" alt="Project Screenshot" width="600"/>
+</p>
+
 
 ## **B) Network Components**
 

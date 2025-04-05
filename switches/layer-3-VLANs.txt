@@ -1,0 +1,42 @@
+cisco 
+enable
+man 
+configure terminal 
+interface range fa0/1-2 
+switchport mode trunk 
+exit 
+
+vlan 10 
+name management
+vlan 20 
+name LAN 
+vlan 50 
+name WLAN
+vlan 70 
+name VoIP
+vlan 199 
+name blackhole
+exit
+
+
+interface range fa0/3-4
+switchport mode access 
+switchport access vlan 20
+exit
+
+interface range fa0/6-7 
+switchport voice vlan 70  
+exit
+
+interface fa0/5
+switchport mode access 
+switchport access vlan 50 
+exit
+
+interface range fa0/8-24 , gig0/1-2
+switchport mode access 
+switchport access vlan 199 
+shutdown 
+exit
+
+

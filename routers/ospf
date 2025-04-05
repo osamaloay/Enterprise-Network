@@ -1,0 +1,8 @@
+router ospf 25
+router-id 1.1.1.1
+network 10.2.2.8 0.0.0.255 area o 
+network 10.2.2.12 0.0.0.3 area 0 
+network 172.16.0.0 0.0.255.255 area 0 
+network 192.168.10.0 0.0.0.255 area 0 
+network 10.11.11.32 0.0.0.32 area 0 
+

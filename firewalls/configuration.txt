@@ -1,0 +1,70 @@
+hostname FW2
+interface gig1/3 
+no shutdown 
+ip address 10.2.2.2 255.255.255.252
+
+nameif inside-zone-1 
+security-level 100 
+
+
+interface gig1/4 
+no shutdown 
+ip address 10.2.2.2 255.255.255.252
+namif inside-zone-2
+security-level 100 
+
+
+interface gig1/5
+no shutdown 
+ip address 10.11.11.1 255.255.255.224 
+nameif DMZ
+security-level 50 
+
+interface gig1/1 
+no shutdown 
+ip address 105.100.50.3 255.255.255.252
+nameif outside-zone-1
+security-level 0
+
+interface gig1/2 
+no shutdown 
+ip address 197.200.100.3 255.255.255.252 
+nameif outside-zone-2
+security-level 0 
+
+exit 
+ip route
+route outside-zone-1 0.0.0.0 0.0.0.0 105.100.50.3 1
+route outside-zone-2 0.0.0.0 0.0.0.0 197.200.100.3 70
+
+router ospf
+router-id 1.1.1.8 
+network 10.2.2.0 255.255.255.252 area 0 
+network 10.11.11.0 255.255.255.224 area 0 
+
+...................
+
+examples : - 
+
+object network inside-outside-1-1
+subnet 172.16.0.0 255.255.0.0  // LAN 
+nat (inside-zone-1, outside-zone-1) dynamic interface 
+
+object network inside-outside-1-2
+subnet 10.20.0.0 255.255.0.0 // WLAN
+nat (inside-zone-1 ,outside-zone-2)
+
+
+access-list 1 extended permit icmp any any 
+access-list 1 extended permit tcp any any eq 80 
+access-list 1 extended permit tcp any any eq 53 
+access-list 1 extended permit udp any any eq 53 
+
+acess-group res in interface DMZ  
+acess-group res in interface outside-zone-2 
+...... 
+
+
+
+
+

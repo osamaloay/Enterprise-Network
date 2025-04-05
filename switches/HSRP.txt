@@ -1,0 +1,22 @@
+interface vlan10 
+ip address 192.168.10.3 255.255.255.0 // higher ip address is elected for all vlans  
+ip helper-address 10.11.11.38 
+standby 10 ip 192.168.10.1 
+
+
+interface vlan20 
+ip address 172.16.0.3 255.255.0.0 
+ip helper-address 10.11.11.38 
+standby 20 ip 172.16.0.1 
+
+interface vlan50
+ip address 10.20.0.2 255.255.0.0 
+ip helper-address 10.11.11.38 
+standby 20 ip 10.20.0.1
+
+
+
+interface vlan90
+ip address 10.11.11.34 255.255.0.0 
+ip helper-address 10.11.11.38 
+standby 20 ip 10.11.11.33 
