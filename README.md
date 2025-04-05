@@ -1,203 +1,115 @@
-# **Enterprise Network Design**
+# Enterprise Network Design
 
-This document outlines the architecture and configuration details for a highly available, secure, and scalable **Enterprise Network**. The design includes multiple network zones, key components, services, and best practices to ensure optimal network performance, security, and redundancy.
+This repository provides a comprehensive guide to designing and implementing a secure, scalable, and highly available enterprise network infrastructure. It includes detailed configurations, subnetting schemes, and security measures to ensure optimal network performance and protection.
 
----
+## Table of Contents
 
-## **A) Network Strategy**
+- [Project Overview](#project-overview)
+- [Network Strategy](#network-strategy)
+  - [Zones Configuration](#zones-configuration)
+  - [Server Placement](#server-placement)
+- [Network Components](#network-components)
+- [Network Addressing Requirements](#network-addressing-requirements)
+- [Technical Details](#technical-details)
+- [Configuration Files](#configuration-files)
+- [Subnetting Scheme](#subnetting-scheme)
+- [Packet Tracer Simulation](#packet-tracer-simulation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
-1. **Zones Configuration**:
-   - **DMZ Zone**: This zone will house publicly accessible servers such as FTP, Web, Email, and Application servers, providing external access while maintaining security.
-   - **Internal Zone**: The internal network will contain critical services such as Active Directory (for user authentication and management), DHCP, DNS, and RADIUS, ensuring seamless internal operations.
-   - **External Zone**: This zone will house routers connected to two Internet Service Providers (ISPs), providing redundancy and high availability for external connectivity.
+## Project Overview
 
-2. **Server Placement**:
-   - The **DMZ** zone will host the FTP, Web, Email, and Application servers to provide essential services to external users.
-   - The **Internal Zone** will contain essential services for managing internal resources, including Active Directory, DHCP, DNS, and RADIUS services.
-   - The **External Zone** will facilitate redundant ISP connections through routers.
+The goal of this project is to design an enterprise network that supports critical services with a focus on security, redundancy, and scalability. The design encompasses various network zones, components, and best practices to meet the organization's requirements.
 
----
-### Preview 
-<p align="center">
-  <img src="media/Screenshot%20From%202025-04-05%2006-25-51.png" alt="Project Screenshot" width="600"/>
-</p>
+### Preview
+![Project Screenshot](media/Screenshot%20From%202025-04-05%2006-25-51.png)
 
 
-## **B) Network Components**
+## Network Strategy
 
-1. **ISP Connection**: Two ISPs will provide internet connectivity for redundancy.
-2. **Network Security**: Cisco ASA Firewalls will be deployed to ensure robust perimeter security, controlling incoming and outgoing traffic.
-3. **Network Routing**: Routing and switching will be handled by Cisco Firewalls and multi-layer switches, ensuring efficient data flow across the network.
-4. **Server Virtualization**: Two physical servers will be utilized for virtualization, using a hypervisor to create virtual machines that run various network services.
-5. **Wireless Infrastructure**: Cisco Wireless LAN Controllers (WLC) will manage lightweight access points (LAPs) for wireless connectivity across the network.
-6. **VoIP**: Voice over IP services will be deployed to ensure seamless communication within the enterprise.
-7. **External Users**: External users will securely access the network via the cloud.
+### Zones Configuration
 
----
+The network is segmented into distinct zones to enhance security and manageability:
 
-## **C) Network Addressing Requirements**
+- **DMZ Zone**: Hosts publicly accessible servers such as FTP, Web, Email, and Application servers, providing external access while maintaining security.
+- **Internal Zone**: Contains critical internal services including Active Directory, DHCP, DNS, and RADIUS, ensuring seamless internal operations.
+- **External Zone**: Houses routers connected to two Internet Service Providers (ISPs), providing redundancy and high availability for external connectivity.
 
-1. **Management Network**: IP range `192.168.100.0/24` – Dedicated for network management devices.
-2. **WLAN**: IP range `10.20.0.0/16` – Used for wireless LAN infrastructure.
-3. **LAN**: IP range `172.16.0.0/16` – Internal LAN addressing for general devices.
-4. **VoIP**: IP range `172.30.0.0/16` – Separate IP range for Voice over IP services.
-5. **DMZ**: IP range `10.11.11.0/27` – Addressing for servers in the DMZ zone.
-6. **Public IPs**: `Vodafone 105.100.50.0/30`, `Orange 197.200.100.0/30` – Public IPs for ISP connections.
+### Server Placement
 
----
+- **DMZ Zone**: Hosts FTP, Web, Email, and Application servers to provide essential services to external users.
+- **Internal Zone**: Contains essential services for managing internal resources, including Active Directory, DHCP, DNS, and RADIUS services.
+- **External Zone**: Facilitates redundant ISP connections through routers.
 
-## **D) Technical Details**
+## Network Components
 
-1. **Hierarchical Network Design**: To ensure network redundancy and minimize single points of failure, the network will use a hierarchical design with Core, Distribution, and Access layers.
-2. **Wireless LAN Controller (WLC)**: Each department will have its own **Wireless Access Point (WAP)**, managed centrally by the Cisco WLC.
-3. **VLAN IDs**: 
-   - **VLAN 10**: Management network
-   - **VLAN 20**: LAN network
-   - **VLAN 50**: WLAN network
-   - **VLAN 70**: VoIP network
-   - **VLAN 199**: Blackhole VLAN (for unused or unassigned ports, enhancing security)
-4. **EtherChannel (LACP)**: LACP (Link Aggregation Control Protocol) will be implemented to enhance link aggregation efficiency, increase bandwidth, and dynamically resolve physical link failures between devices.
-5. **STP PortFast and BPDU Guard**: To prevent broadcast storms and reduce network downtime, **STP PortFast** and **BPDU Guard** will be configured on edge ports to immediately forward traffic and protect against loops during ARP requests.
-6. **Subnetting**: The network will use proper subnetting techniques to allocate appropriate IP ranges for each group and service.
-7. **Inter-VLAN Communication**: Trunk and access ports will be configured to facilitate inter-VLAN communication, ensuring that VLANs can communicate as needed while maintaining security and segmentation.
-8. **Core Switches**: Multi-layer switches will be configured to enable both **routing** and **switching**, ensuring efficient data transmission across VLANs.
-9. **DHCP**: A DHCP server will be deployed within the internal network to dynamically allocate IP addresses to devices within the enterprise.
-10. **HSRP (Hot Standby Router Protocol)**: HSRP will be configured to ensure **router redundancy** for network reliability, ensuring that if one router fails, another router will seamlessly take over the role of the default gateway.
-11. **Static IPs for Servers**: Critical servers will be assigned static IP addresses to ensure consistent access and reliability.
-12. **OSPF (Open Shortest Path First)**: OSPF will be used for internal routing between routers, providing dynamic routing capabilities and efficient path selection.
-13. **ACLs and SSH**: Standard **Access Control Lists (ACLs)** will be implemented for controlling traffic flow, and **SSH** will be used for secure remote administration.
+The network comprises the following key components:
 
----
+1. **ISP Connections**: Dual ISP links for redundancy.
+2. **Network Security**: Cisco ASA Firewalls to enforce robust perimeter security.
+3. **Routing and Switching**: Managed by Cisco Firewalls and multi-layer switches for efficient data flow.
+4. **Server Virtualization**: Utilizes two physical servers running virtual machines for various network services.
+5. **Wireless Infrastructure**: Cisco Wireless LAN Controllers (WLC) managing lightweight access points (LAPs) for wireless connectivity.
+6. **VoIP**: Deployment of Voice over IP services for seamless communication.
+7. **External Access**: Secure access for external users via the cloud.
 
-## **E) Configuration Commands**
+## Network Addressing Requirements
 
-Below are the key configuration commands used on routers and switches for this enterprise network.
+The network employs the following IP addressing scheme:
 
-### **1. VLAN Configuration (Switch)**
+- **Management Network**: `192.168.100.0/24` – Dedicated for network management devices.
+- **WLAN**: `10.20.0.0/16` – Used for wireless LAN infrastructure.
+- **LAN**: `172.16.0.0/16` – Internal LAN addressing for general devices.
+- **VoIP**: `172.30.0.0/16` – Separate IP range for Voice over IP services.
+- **DMZ**: `10.11.11.0/27` – Addressing for servers in the DMZ zone.
+- **Public IPs**: `Vodafone 105.100.50.0/30`, `Orange 197.200.100.0/30` – Public IPs for ISP connections.
 
-```bash
-# Create VLANs on a Cisco switch
-vlan 10
- name Management
- exit
+## Technical Details
 
-vlan 20
- name LAN
- exit
+Key technical aspects of the network design include:
 
-vlan 50
- name WLAN
- exit
+- **Hierarchical Network Design**: Implements Core, Distribution, and Access layers to ensure redundancy and minimize single points of failure.
+- **Wireless LAN Controller (WLC)**: Each department has its own Wireless Access Point (WAP), centrally managed by the Cisco WLC.
+- **VLANs**:
+  - VLAN 10: Management network
+  - VLAN 20: LAN network
+  - VLAN 50: WLAN network
+  - VLAN 70: VoIP network
+  - VLAN 199: Blackhole VLAN for unused or unassigned ports, enhancing security.
+- **EtherChannel (LACP)**: Enhances link aggregation efficiency, increases bandwidth, and dynamically resolves physical link failures between devices.
+- **STP PortFast and BPDU Guard**: Prevents broadcast storms and reduces network downtime by configuring STP PortFast and BPDU Guard on edge ports.
+- **Subnetting**: Proper subnetting techniques allocate appropriate IP ranges for each group and service.
+- **Inter-VLAN Communication**: Trunk and access ports facilitate inter-VLAN communication, ensuring VLANs can communicate as needed while maintaining security and segmentation.
+- **Core Switches**: Multi-layer switches enable both routing and switching, ensuring efficient data transmission across VLANs.
+- **DHCP**: A DHCP server dynamically allocates IP addresses to devices within the enterprise.
+- **HSRP (Hot Standby Router Protocol)**: Ensures router redundancy for network reliability, allowing seamless failover.
+- **Static IPs for Servers**: Critical servers are assigned static IP addresses to ensure consistent access and reliability.
+- **OSPF (Open Shortest Path First)**: Used for internal routing between routers, providing dynamic routing capabilities and efficient path selection.
+- **ACLs and SSH**: Implements Access Control Lists (ACLs) for traffic control and uses SSH for secure remote administration.
 
-vlan 70
- name VoIP
- exit
+## Configuration Files
 
-vlan 199
- name Blackhole
- exit
-```
+The repository includes configuration files for various network devices:
 
-### **2. Inter-VLAN Routing (Layer 3 Switch)**
+- **Routers**: Located in the `routers/` directory.
+- **Switches**: Located in the `switches/` directory.
+- **Firewalls**: Located in the `firewalls/` directory.
 
-```bash
-# Enable routing on the multi-layer switch
-ip routing
+These files provide detailed command-line configurations for each device type.
 
-# Assign IP addresses to VLAN interfaces (SVIs)
-interface vlan 10
- ip address 192.168.100.1 255.255.255.0
- no shutdown
- exit
+## Subnetting Scheme
 
-interface vlan 20
- ip address 172.16.0.1 255.255.255.0
- no shutdown
- exit
+A detailed subnetting scheme is provided in the `subnets.txt` file, outlining the IP address allocations for different network segments.
 
-interface vlan 50
- ip address 10.20.0.1 255.255.0.0
- no shutdown
- exit
+## Packet Tracer Simulation
 
-interface vlan 70
- ip address 172.30.0.1 255.255.0.0
- no shutdown
- exit
-```
+The `University.pkt` file is a Packet Tracer simulation of the network, allowing for practical exploration and testing of the network design.
 
-### **3. Trunk Port Configuration (Switch)**
+## Usage
 
-```bash
-# Configure trunk port on the switch
-interface GigabitEthernet0/1
- switchport mode trunk
- switchport trunk allowed vlan 10,20,50,70
- exit
-```
+To explore the network configurations:
 
-### **4. Access Port Configuration (Switch)**
-
-```bash
-# Configure access port for VLAN 20 (LAN)
-interface GigabitEthernet0/2
- switchport mode access
- switchport access vlan 20
- exit
-```
-
-### **5. EtherChannel Configuration (Switch)**
-
-```bash
-# Configure EtherChannel with LACP (Link Aggregation Control Protocol)
-interface range GigabitEthernet0/1 - 2
- channel-group 1 mode active
- exit
-```
-
-### **6. HSRP Configuration (Router)**
-
-```bash
-# Configure HSRP on a Cisco router
-interface GigabitEthernet0/0
- ip address 172.16.0.2 255.255.255.0
- standby 1 ip 172.16.0.1
- standby 1 priority 110
- standby 1 preempt
- exit
-```
-
-### **7. OSPF Configuration (Router)**
-
-```bash
-# Configure OSPF routing on a Cisco router
-router ospf 1
- network 172.16.0.0 0.0.255.255 area 0
- network 10.20.0.0 0.0.255.255 area 0
- exit
-```
-
-### **8. DHCP Configuration (Server)**
-
-```bash
-# Configure DHCP on a Cisco router or server
-ip dhcp pool LAN-Pool
- network 172.16.0.0 255.255.255.0
- default-router 172.16.0.1
- lease 7
- exit
-```
-
-### **9. ACL Configuration (Router/Switch)**
-
-```bash
-# Configure ACL to permit only specific traffic
-access-list 100 permit ip 172.16.0.0 0.0.255.255 any
-access-list 100 deny ip any any
-
-# Apply ACL to interface
-interface GigabitEthernet0/0
- ip access-group 100 in
- exit
-```
-
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/osamaloay/Enterprise-Network.git
